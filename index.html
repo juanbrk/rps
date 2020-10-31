@@ -1,0 +1,105 @@
+<script>
+    let playerScore = 0;
+    let computerScore = 0;
+    let ties = 0;
+    let computerChoices = ['rock', 'paper', 'scissors'];
+    let playerMove = '';
+    let computerMove = '';
+
+    /**
+     * returns Rock, Paper || Scissors
+     */
+    function getComputerPlay(){
+        let random = Math.random();
+        let pcMove = Math.floor(random * computerChoices.length);
+        pcMove = computerChoices[pcMove];
+        return pcMove;
+    }
+
+    function game(){
+        // solicitar ingreso a jugador
+        playerMove = getPlayerMove();
+        // Elegir movimiento PC
+        computerMove = getComputerPlay();
+        // comparar resultados
+        let result = getRoundResult(playerMove, computerMove);
+        // Presentar resultados
+        return displayResult(result, playerMove, computerMove);
+        // Solicitar ingreso nuevo juego
+    }
+
+    /**
+     * prompts user to choose its move
+     * 
+     * returns Rock, Paper || Scissors 
+     */ 
+    function getPlayerMove(){
+        let playerChoice = prompt('Make your move: Rock, Paper or Scissors: ').toLowerCase();
+        return playerChoice;
+    }
+
+
+    /**
+     * Determines if there is a winner or if its a tied game. 
+     * 
+     * returns:
+     *  0 == player wins
+     *  1 == computer wins
+     * -1 == tie
+     */
+    function getRoundResult(playerChoice, computerChoice){
+        let roundResult = -1;
+        switch (playerChoice) {
+            case 'rock':
+                roundResult = (computerChoice == 'scissors') ? 0 : 
+                                ((computerChoice == 'paper') ? 1 : -1);
+                break;
+            case 'paper':
+                roundResult = (computerChoice == 'rock') ? 0 : 
+                                    ((computerChoice == 'scissors') ? 1 : -1);
+                break;
+            case 'scissors':
+                roundResult = (computerChoice == 'paper') ? 0 : 
+                                    ((computerChoice == 'rock') ? 1 : -1);    
+                break;
+            default:
+                break;
+        }
+        return roundResult;
+    }
+
+    /**
+     * Displays a message that shows the result of the round to the user;
+     */
+    function displayResult(roundResult, playerMove, computerMove){
+        let result = 'TIE';
+        
+        switch (roundResult) {
+            case 0:
+                result = 'PLAYER WINS';
+                playerScore++;
+                break;
+            case 1:
+                result = 'COMPUTER WINS';
+                computerScore++;
+                break;
+            default:
+                ties++;
+                break;
+        }
+
+        let message = `ROUND IS OVER. 
+                        RESULT: ${result}.
+                        COMPUTER CHOICE: ${computerMove}.
+                        PLAYER CHOICE: ${playerMove}.
+                        SCORE: 
+                            COMPUTER: ${computerScore}. 
+                            PLAYER ${playerScore}. 
+                            TIES ${ties}.
+                        `;
+
+        return message;
+    }
+
+
+</script>
